@@ -1,5 +1,5 @@
 {
-  "name": "kdjs",
+  "name": "@kettubot/kdjs",
   "version": "1.0.0",
   "description": "Kettu's extension of discord.js",
   "main": "./src/index.js",
