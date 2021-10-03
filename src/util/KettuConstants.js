@@ -57,5 +57,6 @@ exports.KettuDispatchEvents = [
   'RESUMED',
   'RETRIEVE_GUILDS',
   'SHARD_EVAL',
+  'SHARD_INSTANCE_UPDATE',
   'USER_UPDATE'
 ].reduce((t, c) => ({ ...t, [c]: c }), {})
