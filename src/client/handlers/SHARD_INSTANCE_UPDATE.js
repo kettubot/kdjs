@@ -7,6 +7,6 @@
  */
 
 module.exports = (kettu, packet) => {
-  kettu.shard.instance = packet
-  kettu.emit('shardInstanceUpdate', packet)
+  kettu.shard.instance = packet.d
+  kettu.emit('shardInstanceUpdate', packet.d)
 }
