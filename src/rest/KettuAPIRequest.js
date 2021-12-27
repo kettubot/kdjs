@@ -1,7 +1,7 @@
 'use strict'
 
 const https = require('https')
-const FormData = require('@discordjs/form-data')
+const FormData = require('form-data')
 const fetch = require('node-fetch')
 const { KettuUserAgent } = require('../util/KettuConstants')
 
