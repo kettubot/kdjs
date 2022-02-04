@@ -269,7 +269,7 @@ class KettuClient extends EventEmitter {
 
       if (!this.ws.sessionId) this.ws.destroy({ reset: true, emit: false, log: false })
 
-      setTimeout(() => this.ws.connect(), 1000)
+      setTimeout(() => this.ws.connect(), event.code === 4010 ? 5000 : 1000)
     })
 
     this.ws.on(KettuWSEvents.DESTROYED, () => {
