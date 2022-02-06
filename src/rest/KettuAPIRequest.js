@@ -7,6 +7,7 @@ const { KettuUserAgent } = require('../util/KettuConstants')
 
 // eslint-disable-next-line no-var
 if (https.Agent) var agent = new https.Agent({ keepAlive: true })
+const bigintReplacer = (_, v) => typeof v === 'bigint' ? v.toString() : v
 
 class KettuAPIRequest {
   constructor (rest, method, path, options) {
@@ -40,11 +41,11 @@ class KettuAPIRequest {
     if (this.options.files && this.options.files.length) {
       body = new FormData()
       for (const file of this.options.files) if (file && file.file) body.append(file.name, file.file, file.name)
-      if (typeof this.options.data !== 'undefined') body.append('payload_json', JSON.stringify(this.options.data))
+      if (typeof this.options.data !== 'undefined') body.append('payload_json', JSON.stringify(this.options.data, bigintReplacer))
       headers = Object.assign(headers, body.getHeaders())
       // eslint-disable-next-line eqeqeq
     } else if (this.options.data != null) {
-      body = JSON.stringify(this.options.data)
+      body = JSON.stringify(this.options.data, bigintReplacer)
       headers['Content-Type'] = 'application/json'
     }
 
