@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.0.5
+
+- Fixed kAPI reconnection (increase delay from 1s to 5s)
+- Added `KettuClient#slashDeploy` for slash command deployment options
+
+## 1.0.4
+
+Fixed a breaking change from a previous `discord.js` version
+
+## 1.0.3
+
+Now requires `discord.js^13.4.0`
+
+## 1.0.2
+
+Fixed a bug with `KettuClient#shardInstanceUpdate`
+
+Added further documentation
+
 ## 1.0.1
 
 Added `KettuClient#shardInstanceUpdate`
