@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6
+
+Fixed BigInt serialisation in `KettuAPIRequest`
+
 ## 1.0.5
 
 - Fixed kAPI reconnection (increase delay from 1s to 5s)
