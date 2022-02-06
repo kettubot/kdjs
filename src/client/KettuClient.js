@@ -106,6 +106,12 @@ class KettuClient extends EventEmitter {
     this.secrets = {}
 
     /**
+     * Slash commands deploy configuration for this client
+     * @type {boolean|Array<Snowflake>}
+     */
+    this.deploy = false
+
+    /**
      * Kettu's REST manager of the client
      * @type {KettuRESTManager}
      * @private
@@ -116,13 +122,16 @@ class KettuClient extends EventEmitter {
   }
 
   _patch (data) {
+    // type === 'bot' properties
     if (data.name) this.name = data.name
     if (data.allowed_guilds) this.allowedGuilds = data.allowed_guilds
 
+    // type === 'kettu' properties
     if (data.token) this.discordToken = data.token
     if (data.default_prefix) this.defaultPrefix = data.default_prefix
     if (data.secrets) this.secrets = data.secrets
     if (data.blacklist) this.blacklist = data.blacklist ?? []
+    if ('deploy' in data) this.deploy = data.deploy
 
     if (data.options) {
       for (const opt of Object.keys(data.options)) {
