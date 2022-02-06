@@ -109,7 +109,7 @@ class KettuClient extends EventEmitter {
      * Slash commands deploy configuration for this client
      * @type {boolean|Array<Snowflake>}
      */
-    this.deploy = false
+    this.slashDeploy = false
 
     /**
      * Kettu's REST manager of the client
@@ -131,7 +131,7 @@ class KettuClient extends EventEmitter {
     if (data.default_prefix) this.defaultPrefix = data.default_prefix
     if (data.secrets) this.secrets = data.secrets
     if (data.blacklist) this.blacklist = data.blacklist ?? []
-    if ('deploy' in data) this.deploy = data.deploy
+    if ('slash_deploy' in data) this.slashDeploy = data.slash_deploy
 
     if (data.options) {
       for (const opt of Object.keys(data.options)) {
