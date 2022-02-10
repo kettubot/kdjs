@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7
+
+Implemented more robust reconnection attempts
+
 ## 1.0.6
 
 Fixed BigInt serialisation in `KettuAPIRequest`
