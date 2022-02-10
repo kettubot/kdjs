@@ -6,8 +6,10 @@ const KettuImageManager = require('../managers/KettuImageManager')
 const KettuStoreManager = require('../managers/KettuStoreManager')
 const KettuRESTManager = require('../rest/KettuRESTManager')
 const { KettuEvents, KettuWSEvents } = require('../util/KettuConstants')
+const { retryPromise } = require('../util/KettuUtil')
 const { Util } = require('discord.js')
 const KettuOptions = require('../util/KettuOptions')
+const { setTimeout } = require('timers/promises')
 
 const UNRECOVERABLE_CLOSE_CODES = [4003, 4004, 4012, 4013, 4014, 4015]
 const UNRESUMABLE_CLOSE_CODES = [4007, 4009, 4010]
@@ -252,7 +254,7 @@ class KettuClient extends EventEmitter {
       this.emit(KettuEvents.READY)
     })
 
-    this.ws.on(KettuWSEvents.CLOSE, event => {
+    this.ws.on(KettuWSEvents.CLOSE, async event => {
       if (event.code === 1000 ? this.destroyed : UNRECOVERABLE_CLOSE_CODES.includes(event.code)) {
         /**
          * Emitted when kettu's websocket becomes disconnected and won't reconnect.
@@ -278,13 +280,25 @@ class KettuClient extends EventEmitter {
 
       if (!this.ws.sessionId) this.ws.destroy({ reset: true, emit: false, log: false })
 
-      setTimeout(() => this.ws.connect(), event.code === 4010 ? 5000 : 1000)
+      await setTimeout(event.code === 4010 ? 5000 : 1000)
+
+      try {
+        await retryPromise(() => this.ws.connect(), 3, 2000)
+      } catch (e) {
+        this.destroy()
+      }
     })
 
-    this.ws.on(KettuWSEvents.DESTROYED, () => {
+    this.ws.on(KettuWSEvents.DESTROYED, async () => {
       this.emit(KettuEvents.RECONNECTING)
 
-      setTimeout(() => this.ws.connect(), 1000)
+      await setTimeout(1000)
+
+      try {
+        await retryPromise(() => this.ws.connect(), 3, 2000)
+      } catch (e) {
+        this.destroy()
+      }
     })
   }
 
