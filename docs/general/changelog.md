@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.8
+
+`KettuWebSocket` now implements base`X` events
+
+For example, `KettuClient#retrieveGuilds` -> `KettuClient#baseRetrieveGuilds`
+
 ## 1.0.7
 
 Implemented more robust reconnection attempts
