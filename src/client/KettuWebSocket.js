@@ -316,7 +316,7 @@ class KettuWebSocket extends EventEmitter {
    * @param {Object} packet The received packet
    * @private
    */
-  onPacket (packet) {
+  async onPacket (packet) {
     if (!packet) {
       this.debug(`Received broken packet: '${packet}'.`)
       return
@@ -368,9 +368,12 @@ class KettuWebSocket extends EventEmitter {
         if (packet.a) this.ackHeartbeat()
         else this.sendHeartbeat('HeartbeatRequest', true)
         break
-      default:
-        if (PacketHandlers[packet.t]) PacketHandlers[packet.t](this.client, packet)
-        else this.debug(`[MISSING HANDLER] No handler for event type: ${packet.t}`)
+      default: {
+        if (PacketHandlers[packet.t]) await PacketHandlers[packet.t](this.client, packet)
+        const readable = packet.t.split('_').map(w => w[0].toUpperCase() + w.substring(1, w.length).toLowerCase()).join('')
+        packet.r = Date.now()
+        this.client.emit('base' + readable, packet)
+      }
     }
   }
 
