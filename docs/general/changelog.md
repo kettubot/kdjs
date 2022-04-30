@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.9
+
+- `KettuStoreManager#delete` now actually works
+- Added `KettuStoreManager#patch` to write data in a patch-like fashion
+
 ## 1.0.8
 
 `KettuWebSocket` now implements base`X` events
