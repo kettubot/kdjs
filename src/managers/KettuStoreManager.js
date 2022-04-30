@@ -50,7 +50,7 @@ class KettuStoreManager {
    * @returns {Promise}
    */
   destroy (key) {
-    return this.client.api.users('@me').store(key).delete()
+    return this.client.api.users('@me').store(key).post({ data: null })
   }
 }
 
